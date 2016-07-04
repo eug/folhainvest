@@ -2,9 +2,9 @@
 
 import requests
 import re
+import os.path
 from bs4 import BeautifulSoup
-from collections import namedtuple
-from collections import defaultdict
+from collections import namedtuple, defaultdict
 
 Portfolio = namedtuple('Portfolio', 'stocks overview annual_profit monthly_profit')
 Stock = namedtuple('Stock', 'symbol name quantity avg_value current_value total_value profit variation')
@@ -136,12 +136,6 @@ class FolhaInvest(object):
     elif type(value) is int:
       value = str(float(value)).repalce('.', ',')
 
-    # TODO: Check quantity format
-
-    # if type(quantity) is int:
-    #   quantity = 
-
-
     # Cria payload da requisição
     payload = {
       'start_stop'      : start_stop,
@@ -178,23 +172,28 @@ class FolhaInvest(object):
 
   def cancel(self, orders_id):
     # orders_id is a list
-    url = self._geturl('ordens')
-
-    # TODO: Refatorar
-    # payload = defaultdict(list)
-    # payload['orders[]'].append(id)
-    payload = { 'cancel' : 'Remover ordens' }
+    payload = defaultdict(list)
     for id in orders_id:
-      payload['orders[]'] = id
+      payload['orders[]'].append(id)
+    payload['cancel'].append('Remover ordens')
 
+    url = self._geturl('ordens')
     r = self._session.post(url, data=payload)
 
+    
+    if r.status_code == 200:
+      status_code = 'OK'
+      description = 'Request successfuly sent'
+    else:
+      status_code = 'FAIL'
+      description = 'Unable to send request'
 
-    # TODO: Return status
+
     return Status(
-      status_code = None,
-      description = None
+      status_code = status_code,
+      description = description
     )
+
 
 
   def orders_status(self, filter='all'):
@@ -207,14 +206,21 @@ class FolhaInvest(object):
     html = BeautifulSoup(r.text)
     for row in html.select('table.fiTable')[0].select('tr')[1:]: # skip header
       cols  = row.select('td')
-
+      
+      # Extrai todas colunas da linha
       id              = int(cols[0].input['value'])
       type            = str(cols[1].b.string)
       symbol          = str(cols[2].b.string)
       quantity        = self._cast_int(cols[3].string)
-      value           = self._cast_float(cols[4].string)
+      value           = cols[4].string
       expiration_date = str(cols[5].string)
       status          = str(cols[6].b.string)
+
+      # Valores a mercado são definidos para 0
+      if 'mercado' in value:
+        value = 0.0
+      else:
+        value = self._cast_float(value)
 
       order_status = OrderStatus(
         id              = id,
@@ -317,25 +323,35 @@ class FolhaInvest(object):
     payload = { 'confirm': 'Confirmar' } # cancel:Cancelar
     self._session.post(r.url, data=payload)
 
+    
+
     # TODO: Return status
     return Status(
-      status_code=None,
-      description=None
+      status_code = None,
+      description = None
     )
 
 
-  def get_portfolio_csv(self, filename):
+  def get_portfolio_csv(self, filepath):
     url = self._geturl('carteira?tsv=yes')
     r = self._session.get(url)
-    with open(filename, 'wb') as f:
-      for chunk in r.iter_content(chunk_size=1024): 
-        if chunk: # filter out keep-alive new chunks
-          f.write(chunk)
+    
+    if r.status_code == 200:
+      with open(filepath, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024): 
+          if chunk: # filter out keep-alive new chunks
+            f.write(chunk)
 
-    # TODO: Return status code
+    if os.path.exists(filepath):
+      status_code = 'OK'
+      description = 'Successfully downloaded'
+    else:
+      status_code = 'FAIL'
+      description = 'Unable to download'
+    
     return Status(
-      status_code=None,
-      description=None
+      status_code = status_code,
+      description = description
     )
 
 
