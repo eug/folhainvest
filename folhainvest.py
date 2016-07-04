@@ -67,12 +67,12 @@ class FolhaInvest(object):
     r = self._session.post(url, data=payload)
 
     # Verifica se foi possivel realizar o login
-    if not 'FOLHA_KEY' in r.headers['set-cookie']:
-      status_code = 'FAIL'
-      description = 'Unable to login'      
-    else:
+    if 'FOLHA_KEY' in r.headers['set-cookie']:
       status_code = 'OK'
-      description = 'Successfully logged in'
+      description = 'Login efetuado com sucesso'
+    else:
+      status_code = 'FAIL'
+      description = 'Não foi possível efetuar o login'      
 
     return Status(
       status_code = status_code,
@@ -155,14 +155,14 @@ class FolhaInvest(object):
     # Checa se algum erro ocorreu
     warning = BeautifulSoup(r.text).find(class_='message warning')
 
-    if warning:
-      status_code = 'FAIL'
-      description = warning.h2.string
-    else:
+    if not warning:
       status_code = 'OK'
-      description = 'Order sent'
+      description = 'Ordem enviada com sucesso'
       # Confirma automaticamente
       self._session.post(r.url, data={ 'confirm': 'Confirmar' })
+    else:
+      status_code = 'FAIL'
+      description = warning.h2.string
 
     return Status(
       status_code = status_code,
@@ -183,17 +183,16 @@ class FolhaInvest(object):
     
     if r.status_code == 200:
       status_code = 'OK'
-      description = 'Request successfuly sent'
+      description = 'Requisição enviada com sucesso'
     else:
       status_code = 'FAIL'
-      description = 'Unable to send request'
+      description = 'Falha no envio da requisição'
 
 
     return Status(
       status_code = status_code,
       description = description
     )
-
 
 
   def orders_status(self, filter='all'):
@@ -263,14 +262,14 @@ class FolhaInvest(object):
       variation     = self._cast_float(cols[9].string)
 
       stock = Stock(
-        symbol = symbol,
-        name = name,
-        quantity = quantity,
-        avg_value = avg_value,
+        symbol        = symbol,
+        name          = name,
+        quantity      = quantity,
+        avg_value     = avg_value,
         current_value = current_value,
-        total_value = total_value,
-        profit = profit,
-        variation = variation
+        total_value   = total_value,
+        profit        = profit,
+        variation     = variation
       )
       stocks.append(stock)
 
@@ -320,15 +319,20 @@ class FolhaInvest(object):
     url = self._geturl('limpar')
     r = self._session.get(url)
 
+    # Confirma automaticamente
     payload = { 'confirm': 'Confirmar' } # cancel:Cancelar
-    self._session.post(r.url, data=payload)
+    r = self._session.post(r.url, data=payload)
 
-    
+    if r.status_code == 200:
+      status_code = 'OK'
+      description = 'Requisição enviada com sucesso'
+    else:
+      status_code = 'FAIL'
+      description = 'Falha no envio da requisição'
 
-    # TODO: Return status
     return Status(
-      status_code = None,
-      description = None
+      status_code = status_code,
+      description = description
     )
 
 
@@ -344,10 +348,10 @@ class FolhaInvest(object):
 
     if os.path.exists(filepath):
       status_code = 'OK'
-      description = 'Successfully downloaded'
+      description = 'Arquivo baixado com sucesso'
     else:
       status_code = 'FAIL'
-      description = 'Unable to download'
+      description = 'Não foi possível baixar arquivo'
     
     return Status(
       status_code = status_code,
