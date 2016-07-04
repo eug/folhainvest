@@ -4,9 +4,9 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from collections import namedtuple
+from collections import defaultdict
 
-
-Portfolio = namedtuple('Portfolio', 'portfolio overview annual_profit monthly_profit')
+Portfolio = namedtuple('Portfolio', 'stocks overview annual_profit monthly_profit')
 Stock = namedtuple('Stock', 'symbol name quantity avg_value current_value total_value profit variation')
 Profitability = namedtuple('Profitability', 'initial_position current_position current_performance')
 Overview = namedtuple('Overview', 'total_capital total_stocks total')
@@ -29,6 +29,10 @@ class FolhaInvest(object):
 
   def _geturl(self, page):
     return '%s/%s' % (self._host, page) 
+
+
+  def _get_symbol(self, html):
+    return ''.join(re.findall('\>(.*?)\<', str(html)))
 
 
   def _cast_float(self, text):
@@ -55,9 +59,9 @@ class FolhaInvest(object):
     url = 'http://login.folha.com.br/login?done=http://folhainvest.folha.uol.com.br/carteira&service=folhainvest'
     
     payload = {
-      'email': email,
-      'password': password,
-      'auth': 'Autenticar'
+      'email'    : email,
+      'password' : password,
+      'auth'     : 'Autenticar'
     }
 
     r = self._session.post(url, data=payload)
@@ -132,6 +136,11 @@ class FolhaInvest(object):
     elif type(value) is int:
       value = str(float(value)).repalce('.', ',')
 
+    # TODO: Check quantity format
+
+    # if type(quantity) is int:
+    #   quantity = 
+
 
     # Cria payload da requisição
     payload = {
@@ -171,6 +180,9 @@ class FolhaInvest(object):
     # orders_id is a list
     url = self._geturl('ordens')
 
+    # TODO: Refatorar
+    # payload = defaultdict(list)
+    # payload['orders[]'].append(id)
     payload = { 'cancel' : 'Remover ordens' }
     for id in orders_id:
       payload['orders[]'] = id
@@ -222,9 +234,80 @@ class FolhaInvest(object):
   def portfolio(self):
     url = self._geturl('carteira')
     r = self._session.get(url)
+    html = BeautifulSoup(r.text)
 
-    # TODO: Implementar
+    tables = html.select('table.fiTable')
+    table_stocks         = tables[0]
+    table_overview       = tables[1]
+    table_annual_profit  = tables[2]
+    table_monthly_profit = tables[3]
 
+    # Extract Stocks data
+    stocks = []
+    for row in table_stocks.select('tr')[1:-1]:
+      cols = row.select('td')
+
+      symbol        = self._get_symbol(cols[0])
+      name          = cols[1].string
+      quantity      = self._cast_int(cols[4].string)
+      avg_value     = self._cast_float(cols[5].string)
+      current_value = self._cast_float(cols[6].string)
+      total_value   = self._cast_float(cols[7].string)
+      profit        = self._cast_float(cols[8].string)
+      variation     = self._cast_float(cols[9].string)
+
+      stock = Stock(
+        symbol = symbol,
+        name = name,
+        quantity = quantity,
+        avg_value = avg_value,
+        current_value = current_value,
+        total_value = total_value,
+        profit = profit,
+        variation = variation
+      )
+      stocks.append(stock)
+
+    # Extract Overview data
+    cols = table_overview.select('tr')[1].select('td')
+    total_capital = self._cast_float(cols[0].string)
+    total_stocks  = self._cast_float(cols[1].string)
+    total         = self._cast_float(cols[2].string)
+
+    overview = Overview(
+      total_capital = total_capital,
+      total_stocks  = total_stocks,
+      total = total
+    )
+
+    # Extract Annual Profitability
+    rows = table_annual_profit.select('tr')[1:]
+    a_initial_position    = self._cast_float(rows[0].select('td')[1].string)
+    a_current_position    = self._cast_float(rows[1].select('td')[1].string)
+    a_current_performance = self._cast_percentage(rows[2].select('td')[1].string)
+    annual_profit = Profitability(
+      initial_position    = a_initial_position,
+      current_position    = a_current_position,
+      current_performance = a_current_performance
+    )
+
+    # Extract Monthly Profitability
+    rows = table_monthly_profit.select('tr')[1:]
+    m_initial_position    = self._cast_float(rows[0].select('td')[1].string)
+    m_current_position    = self._cast_float(rows[1].select('td')[1].string)
+    m_current_performance = self._cast_percentage(rows[2].select('td')[1].string)
+    monthly_profit = Profitability(
+      initial_position    = m_initial_position,
+      current_position    = m_current_position,
+      current_performance = m_current_performance
+    )
+
+    return Portfolio(
+      stocks         = stocks,
+      overview       = overview,
+      annual_profit  = annual_profit,
+      monthly_profit = monthly_profit
+    )
 
 
   def reset_portfolio(self):
@@ -309,7 +392,7 @@ class FolhaInvest(object):
     for row in html.find('table', class_='logTable').select('tr')[1:-1]:
       cols = row.select('td')
       
-      symbol   = ''.join(re.findall('\>(.*?)\<', str(cols[0].a)))
+      symbol   = self._get_symbol(cols[0].a)
       executed = self._cast_int(cols[1].string)
       pending  = self._cast_int(cols[2].string)
       total    = self._cast_int(cols[3].string)
