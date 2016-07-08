@@ -19,7 +19,15 @@ Status = namedtuple('Status', 'status_code description')
 
 
 class FolhaInvest(object):
-  """docstring for FolhaInvest"""
+  """API de acesso ao FolhaInvest.
+
+  Fornece os principais métodos de acesso à plataforma de simulação, permitindo
+  o envio e monitoramento de ordens e a recuperação de informações gerais.
+
+  References
+  ----------
+  [1] http://folhainvest.folha.uol.com.br
+  """
 
   def __init__(self):
     super(FolhaInvest, self).__init__()
@@ -28,26 +36,32 @@ class FolhaInvest(object):
 
 
   def _geturl(self, page):
+    """Returna a url completa para requisição."""
     return '%s/%s' % (self._host, page) 
 
 
   def _get_symbol(self, html):
+    """Returna nome da empresa a partir de uma tag html 'a'."""
     return ''.join(re.findall('\>(.*?)\<', str(html)))
 
 
   def _cast_float(self, text):
+    """Converte uma string para float."""
     return float(text.replace('.', '').replace(',', '.'))
 
 
   def _cast_int(self, text):
+    """Converte uma string para int."""
     return int(text.replace('.', ''))
 
 
   def _cast_rank(self, text):
+    """Converte string contendo indicador ordinal para int."""
     return self._cast_int(text.split(' ')[0])
 
 
   def _cast_currency(self, text):
+    """Converte string no formato de moeda para float."""
     return self._cast_float(text.strip().split(' ')[1])
 
 
@@ -56,6 +70,19 @@ class FolhaInvest(object):
 
 
   def login(self, email, password):
+    """ Realiza do usuário autenticação no sistema.
+
+    Parameters
+    ----------
+    email : Email do usuário.
+
+    password : Senha do usuário.
+
+    Returns
+    -------
+    status : Status
+            Returna o estado da autenticação.
+    """
     url = 'http://login.folha.com.br/login?done=http://folhainvest.folha.uol.com.br/carteira&service=folhainvest'
     
     payload = {
@@ -81,6 +108,12 @@ class FolhaInvest(object):
     
 
   def info(self):
+    """Returns informações gerais do desempenho.
+    Returns
+    -------
+    info : Info
+           Returna os valores em uma tupla.
+    """
     url = self._geturl('ordens')
     r = self._session.get(url)
 
@@ -109,22 +142,111 @@ class FolhaInvest(object):
 
 
   def buy(self, symbol, value, quantity, expiration_date, pricing='fixed'):
-    """ pricing = market or fixed """
+    """Envia uma ordem de compra.
+
+    Parameters
+    ----------
+    symbol : string
+             Nome da empresa (ex. ABEV3, PETR4, etc).
+    
+    value : string ou float
+            Valor da compra (ex. '12,45' ou 12.45).
+    
+    quantity : string ou int
+              Volume da compra (ex. '1.000' ou 1000).
+    
+    expiration_date : string
+                      Data de vencimento da compra (ex. '31/12/2100').
+    
+    pricing: 'fixed' ou 'market' (default='fixed')
+              Tipo de compra, preço fixo ('fixed') ou a mercado ('market').
+  
+    Returns
+    -------
+    status : Status
+             Returna o estado da submissão.
+    """
     url = self._geturl('comprar')
     return self._order(url, symbol, value, quantity, expiration_date, pricing)
 
 
   def buy_start(self, symbol, value, quantity, expiration_date):
+    """Envia um start de compra.
+
+    Parameters
+    ----------
+    symbol : string
+             Nome da empresa (ex. ABEV3, PETR4, etc).
+    
+    value : string ou float
+            Valor da compra (ex. '12,45' ou 12.45).
+    
+    quantity : string ou int
+              Volume da compra (ex. '1.000' ou 1000).
+    
+    expiration_date : string
+                      Data de vencimento da venda (ex. '31/12/2100').
+    
+    Returns
+    -------
+    status : Status
+             Returna o estado da submissão.
+    """
     url = self._geturl('start')
     return self._order(url, symbol, value, quantity, expiration_date, start_stop=1)
 
 
   def sell(self, symbol, value, quantity, expiration_date, pricing='fixed'):
+    """Envia uma ordem de venda.
+
+    Parameters
+    ----------
+    symbol : string
+             Nome da empresa (ex. ABEV3, PETR4, etc).
+    
+    value : string ou float
+            Valor da venda (ex. '12,45' ou 12.45).
+    
+    quantity : string ou int
+              Volume da venda (ex. '1.000' ou 1000).
+    
+    expiration_date : string
+                      Data de vencimento da venda (ex. '31/12/2100').
+    
+    pricing: 'fixed' ou 'market' (default='fixed')
+              Tipo de venda, preço fixo ('fixed') ou a mercado ('market').
+  
+    Returns
+    -------
+    status : Status
+             Returna o estado da submissão.
+    """
     url = self._geturl('vender')
     return self._order(url, symbol, value, quantity, expiration_date, pricing, sell=1)
 
 
   def sell_stop(self, symbol, value, quantity, expiration_date):
+    """Envia um stop de venda.
+
+    Parameters
+    ----------
+    symbol : string
+             Nome da empresa (ex. ABEV3, PETR4, etc).
+    
+    value : string ou float
+            Valor da venda (ex. '12,45' ou 12.45).
+    
+    quantity : string ou int
+              Volume da venda (ex. '1.000' ou 1000).
+    
+    expiration_date : string
+                      Data de vencimento da venda (ex. '31/12/2100').
+    
+    Returns
+    -------
+    status : Status
+             Returna o estado da submissão.
+    """
     url = self._geturl('stop')
     return self._order(url, symbol, value, quantity, expiration_date, start_stop=1, sell=1)
 
@@ -134,7 +256,13 @@ class FolhaInvest(object):
     if type(value) is float:
       value = str(value).replace('.', ',')
     elif type(value) is int:
-      value = str(float(value)).repalce('.', ',')
+      value = str(float(value)).replace('.', ',')
+    elif type(value) is str:
+      value = value.replace('.', ',')
+
+    # TODO: Validar possiveis variações
+    if type(quantity) is float:
+      quantity = int(quantity)
 
     # Cria payload da requisição
     payload = {
@@ -171,7 +299,22 @@ class FolhaInvest(object):
 
 
   def cancel(self, orders_id):
-    # orders_id is a list
+    """Envia uma ordem de cancelamento.
+    
+    Parameters
+    ----------
+    orders_id : list
+                Uma lista de id's de cada ordem a ser cancelada. Se uma lista
+                vazia for fornecida, a ordem não é enviada. Caso valores
+                inválidos forem especificados, os possíveis erros não serão
+                retornados por este método.
+
+    Returns
+    -------
+    status : Status
+             Returna o estado da submissão.
+    """
+
     payload = defaultdict(list)
     for id in orders_id:
       payload['orders[]'].append(id)
@@ -180,14 +323,12 @@ class FolhaInvest(object):
     url = self._geturl('ordens')
     r = self._session.post(url, data=payload)
 
-    
-    if r.status_code == 200:
+    if r.status_code == 200 and len(payload) > 1:
       status_code = 'OK'
       description = 'Requisição enviada com sucesso'
     else:
       status_code = 'FAIL'
       description = 'Falha no envio da requisição'
-
 
     return Status(
       status_code = status_code,
@@ -196,8 +337,23 @@ class FolhaInvest(object):
 
 
   def orders_status(self, filter='all'):
-    """ filter = all, cancelled, executed, pendent
-    return lista de OrderStatus """
+    """Returns o estado das ordens enviadas.
+    
+    Atenção: Para ordens enviadas a mercado os valores de compra/venda serão
+    fixados para 0 (zero).
+
+    Parameters
+    ----------
+    filter : 'all', 'cancelled', 'executed', 'pendent' (default='all')
+              Filtra ordens pelo respectivo estado.
+
+    Returns
+    -------
+    orders_status : list
+                    Returna lista de OrderStatus contendo informações de cada
+                    ordem. Returna uma lista vazia, caso nenhuma ordem seja
+                    encontrada.
+    """
     url = self._geturl('ordens?f=' + filter)
     r = self._session.post(url)
     result = []
@@ -237,6 +393,13 @@ class FolhaInvest(object):
 
 
   def portfolio(self):
+    """Returna informações referentes a carteira.
+
+    Returns
+    -------
+    portfolio : Portfolio
+                Returna uma tupla Portfolio contendo as informações encontradas.
+    """
     url = self._geturl('carteira')
     r = self._session.get(url)
     html = BeautifulSoup(r.text)
@@ -316,6 +479,13 @@ class FolhaInvest(object):
 
 
   def reset_portfolio(self):
+    """Reinicia a carteira.
+
+    Returns
+    -------
+    status : Status
+             Returna o estado da submissão.
+    """
     url = self._geturl('limpar')
     r = self._session.get(url)
 
@@ -337,6 +507,13 @@ class FolhaInvest(object):
 
 
   def get_portfolio_csv(self, filepath):
+    """Realiza o download da carteira no formato'.xls'.
+
+    Returns
+    -------
+    status : Status
+             Returna o estado do download.
+    """
     url = self._geturl('carteira?tsv=yes')
     r = self._session.get(url)
     
@@ -360,7 +537,21 @@ class FolhaInvest(object):
 
 
   def quotations(self, view=''):
-    # view: '' or 'portfolio'
+    """Returns as cotações.
+
+    Parameters
+    ----------
+    view : '' ou 'portfolio', (default='')
+           Lista todas as empresas ('') ou somente empresas existentes na
+           carteira ('portfolio').
+
+    Returns
+    -------
+    quotations : list
+                 Returna lista de Quote contendo a cotação de cada empresa.
+                 Um lista vazia é retornada quando não foi possível encontrar
+                 cotações.
+    """
     url = self._geturl('cotacoes?view_option=' + view)
     r = self._session.get(url)
     result = []
@@ -399,16 +590,26 @@ class FolhaInvest(object):
 
 
   def simulator_trades(self):
+    """Returna o número de negociações feitas em cada empresa no simulador.
+
+    Returns
+    -------
+    simulator_trades : list
+                      Returna lista SimulatorTrade contendo o
+                      número de negociações realizadas no simulador
+                      em cada empresa. Uma lista vazia é retornada
+                      caso nenhum valor seja encontrado.
+    """
     url = self._geturl('negociacoes')
     r = self._session.get(url)
     result = []
 
     html = BeautifulSoup(r.text)
     
-    # remove useless tables
+    # Remove tabelas desnecessárias
     [m.extract() for m in html.find_all('table', class_='marker')]
 
-    # skip first and last items of the list
+    # Ignora primeira e última posição da lista
     for row in html.find('table', class_='logTable').select('tr')[1:-1]:
       cols = row.select('td')
       
@@ -427,18 +628,3 @@ class FolhaInvest(object):
       result.append(simulator_trade)
 
     return result
-
-
-  # def bank_statement(self):
-  #   print 'Not implemented yet'
-
-  # def company_info(self, symbol, section=''):
-  #   # section: '' or 'history'
-  #   # year: ''
-  #   print 'Not implemented yet'
-
-  # def ranking(self):
-  #   print 'Not implemented yet'
-    
-  # def controlling_interest(self):
-  #   print 'Not implemented yet'
