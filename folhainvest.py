@@ -36,12 +36,12 @@ class FolhaInvest(object):
 
 
   def _geturl(self, page):
-    """Returna a url completa para requisição."""
+    """Retorna a url completa para requisição."""
     return '%s/%s' % (self._host, page) 
 
 
   def _get_symbol(self, html):
-    """Returna nome da empresa a partir de uma tag html 'a'."""
+    """Retorna nome da empresa a partir de uma tag html 'a'."""
     return ''.join(re.findall('\>(.*?)\<', str(html)))
 
 
@@ -81,7 +81,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-            Returna o estado da autenticação.
+            Retorna o estado da autenticação.
     """
     url = 'http://login.folha.com.br/login?done=http://folhainvest.folha.uol.com.br/carteira&service=folhainvest'
     
@@ -112,7 +112,7 @@ class FolhaInvest(object):
     Returns
     -------
     info : Info
-           Returna os valores em uma tupla.
+           Retorna os valores em uma tupla.
     """
     url = self._geturl('ordens')
     r = self._session.get(url)
@@ -164,7 +164,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado da submissão.
+             Retorna o estado da submissão.
     """
     url = self._geturl('comprar')
     return self._order(url, symbol, value, quantity, expiration_date, pricing)
@@ -190,7 +190,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado da submissão.
+             Retorna o estado da submissão.
     """
     url = self._geturl('start')
     return self._order(url, symbol, value, quantity, expiration_date, start_stop=1)
@@ -219,7 +219,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado da submissão.
+             Retorna o estado da submissão.
     """
     url = self._geturl('vender')
     return self._order(url, symbol, value, quantity, expiration_date, pricing, sell=1)
@@ -245,7 +245,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado da submissão.
+             Retorna o estado da submissão.
     """
     url = self._geturl('stop')
     return self._order(url, symbol, value, quantity, expiration_date, start_stop=1, sell=1)
@@ -312,7 +312,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado da submissão.
+             Retorna o estado da submissão.
     """
 
     payload = defaultdict(list)
@@ -350,8 +350,8 @@ class FolhaInvest(object):
     Returns
     -------
     orders_status : list
-                    Returna lista de OrderStatus contendo informações de cada
-                    ordem. Returna uma lista vazia, caso nenhuma ordem seja
+                    Retorna lista de OrderStatus contendo informações de cada
+                    ordem. Retorna uma lista vazia, caso nenhuma ordem seja
                     encontrada.
     """
     url = self._geturl('ordens?f=' + filter)
@@ -393,12 +393,12 @@ class FolhaInvest(object):
 
 
   def portfolio(self):
-    """Returna informações referentes a carteira.
+    """Retorna informações referentes a carteira.
 
     Returns
     -------
     portfolio : Portfolio
-                Returna uma tupla Portfolio contendo as informações encontradas.
+                Retorna uma tupla Portfolio contendo as informações encontradas.
     """
     url = self._geturl('carteira')
     r = self._session.get(url)
@@ -484,7 +484,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado da submissão.
+             Retorna o estado da submissão.
     """
     url = self._geturl('limpar')
     r = self._session.get(url)
@@ -512,7 +512,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Returna o estado do download.
+             Retorna o estado do download.
     """
     url = self._geturl('carteira?tsv=yes')
     r = self._session.get(url)
@@ -548,7 +548,7 @@ class FolhaInvest(object):
     Returns
     -------
     quotations : list
-                 Returna lista de Quote contendo a cotação de cada empresa.
+                 Retorna lista de Quote contendo a cotação de cada empresa.
                  Um lista vazia é retornada quando não foi possível encontrar
                  cotações.
     """
@@ -590,12 +590,12 @@ class FolhaInvest(object):
 
 
   def simulator_trades(self):
-    """Returna o número de negociações feitas em cada empresa no simulador.
+    """Retorna o número de negociações feitas em cada empresa no simulador.
 
     Returns
     -------
     simulator_trades : list
-                      Returna lista SimulatorTrade contendo o
+                      Retorna lista SimulatorTrade contendo o
                       número de negociações realizadas no simulador
                       em cada empresa. Uma lista vazia é retornada
                       caso nenhum valor seja encontrado.
