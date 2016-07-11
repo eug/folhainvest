@@ -75,9 +75,11 @@ class FolhaInvest(object):
 
     Parameters
     ----------
-    email : Email do usuário.
+    email : string
+            Email do usuário.
 
-    password : Senha do usuário.
+    password : string
+            Senha do usuário.
 
     Returns
     -------
@@ -109,7 +111,8 @@ class FolhaInvest(object):
     
 
   def info(self):
-    """Returns informações gerais do desempenho.
+    """Retorna informações gerais do desempenho.
+
     Returns
     -------
     info : Info
@@ -148,19 +151,19 @@ class FolhaInvest(object):
     Parameters
     ----------
     symbol : string
-             Nome da empresa (ex. ABEV3, PETR4, etc).
+            Nome da empresa (ex. ABEV3, PETR4, etc).
     
     value : string ou float
             Valor da compra (ex. '12,45' ou 12.45).
     
     quantity : string ou int
-              Volume da compra (ex. '1.000' ou 1000).
+            Volume da compra (ex. '1.000' ou 1000).
     
     expiration_date : string
-                      Data de vencimento da compra (ex. '31/12/2100').
+            Data de vencimento da compra (ex. '31/12/2100').
     
-    pricing: 'fixed' ou 'market' (default='fixed')
-              Tipo de compra, preço fixo ('fixed') ou a mercado ('market').
+    pricing : 'fixed' ou 'market' (default='fixed')
+            Tipo de preço da compra, preço fixo ('fixed') ou a mercado ('market').
   
     Returns
     -------
@@ -177,21 +180,21 @@ class FolhaInvest(object):
     Parameters
     ----------
     symbol : string
-             Nome da empresa (ex. ABEV3, PETR4, etc).
+            Nome da empresa (ex. ABEV3, PETR4, etc).
     
     value : string ou float
             Valor da compra (ex. '12,45' ou 12.45).
     
     quantity : string ou int
-              Volume da compra (ex. '1.000' ou 1000).
+            Volume da compra (ex. '1.000' ou 1000).
     
     expiration_date : string
-                      Data de vencimento da venda (ex. '31/12/2100').
+            Data de vencimento da venda (ex. '31/12/2100').
     
     Returns
     -------
     status : Status
-             Retorna o estado da submissão.
+            Retorna o estado da submissão.
     """
     url = self._geturl('start')
     return self._order(url, symbol, value, quantity, expiration_date, start_stop=1)
@@ -203,24 +206,24 @@ class FolhaInvest(object):
     Parameters
     ----------
     symbol : string
-             Nome da empresa (ex. ABEV3, PETR4, etc).
+            Nome da empresa (ex. ABEV3, PETR4, etc).
     
     value : string ou float
             Valor da venda (ex. '12,45' ou 12.45).
     
     quantity : string ou int
-              Volume da venda (ex. '1.000' ou 1000).
+            Volume da venda (ex. '1.000' ou 1000).
     
     expiration_date : string
-                      Data de vencimento da venda (ex. '31/12/2100').
+            Data de vencimento da venda (ex. '31/12/2100').
     
-    pricing: 'fixed' ou 'market' (default='fixed')
-              Tipo de venda, preço fixo ('fixed') ou a mercado ('market').
+    pricing : 'fixed' ou 'market' (default='fixed')
+            Tipo de preço da venda, preço fixo ('fixed') ou a mercado ('market').
   
     Returns
     -------
     status : Status
-             Retorna o estado da submissão.
+            Retorna o estado da submissão.
     """
     url = self._geturl('vender')
     return self._order(url, symbol, value, quantity, expiration_date, pricing, sell=1)
@@ -232,27 +235,67 @@ class FolhaInvest(object):
     Parameters
     ----------
     symbol : string
-             Nome da empresa (ex. ABEV3, PETR4, etc).
+            Nome da empresa (ex. ABEV3, PETR4, etc).
     
     value : string ou float
             Valor da venda (ex. '12,45' ou 12.45).
     
     quantity : string ou int
-              Volume da venda (ex. '1.000' ou 1000).
+            Volume da venda (ex. '1.000' ou 1000).
     
     expiration_date : string
-                      Data de vencimento da venda (ex. '31/12/2100').
+            Data de vencimento da venda (ex. '31/12/2100').
     
     Returns
     -------
     status : Status
-             Retorna o estado da submissão.
+            Retorna o estado da submissão.
     """
     url = self._geturl('stop')
     return self._order(url, symbol, value, quantity, expiration_date, start_stop=1, sell=1)
 
 
   def _order(self, url, symbol, value, quantity, expiration_date, pricing='', start_stop=0, sell=0):
+    """Método genérico para envio de ordens.
+
+    Atenção: Este método não deve ser chamado diretamente, deve ser restrito
+    ao uso interno da classe.
+
+    Parameters
+    ----------
+    url : string
+            URL da requisição.
+
+    symbol : string
+            Nome da empresa (ex. ABEV3, PETR4, etc).
+
+    value : string ou float
+            Valor da ordem (ex. '12,45' ou 12.45).
+
+    quantity : string ou int
+            Volume da ordem (ex. '1.000' ou 1000).
+
+    expiration_date : string
+            Data de vencimento da ordem (ex. '31/12/2100').
+
+    pricing : '', 'fixed' ou 'market' (default='')
+            Tipo de preço da ordem. Define 'fixed' para usar preço fixo,
+            'market' para preço a mercado e '' para operações stop de venda,
+            ou start de compra.
+
+    start_stop : 0 ou 1 (default=0)
+            Quando definido para 0 ativa operação start, e 1 ativa operação
+            stop. Deve ser usado em combinação com o parâmetro 'sell'.
+
+    sell : 0 ou 1 (default=0)
+            Quando definido para 0 ativa operação de compra, e 1 ativa operação
+            de venda. Deve ser usado em combinação com o parâmetro 'start_stop'.
+
+    Returns
+    -------
+    status : Status
+             Retorna o estado da submissão.
+    """
     # Valida os parametros  
     if type(value) is float:
       value = str(value).replace('.', ',')
@@ -261,7 +304,6 @@ class FolhaInvest(object):
     elif type(value) is str:
       value = value.replace('.', ',')
 
-    # TODO: Validar possiveis variações
     if type(quantity) is float:
       quantity = int(quantity)
 
@@ -287,7 +329,6 @@ class FolhaInvest(object):
     if not warning:
       status_code = 'OK'
       description = 'Ordem enviada com sucesso'
-      # Confirma automaticamente
       self._session.post(r.url, data={ 'confirm': 'Confirmar' })
     else:
       status_code = 'FAIL'
@@ -305,17 +346,16 @@ class FolhaInvest(object):
     Parameters
     ----------
     orders_id : list
-                Uma lista de id's de cada ordem a ser cancelada. Se uma lista
-                vazia for fornecida, a ordem não é enviada. Caso valores
-                inválidos forem especificados, os possíveis erros não serão
-                retornados por este método.
+            Uma lista de id's de cada ordem a ser cancelada. Se uma lista
+            vazia for fornecida, a ordem não é enviada. Caso valores
+            inválidos forem especificados, os possíveis erros não serão
+            retornados por este método.
 
     Returns
     -------
     status : Status
              Retorna o estado da submissão.
     """
-
     payload = defaultdict(list)
     for id in orders_id:
       payload['orders[]'].append(id)
@@ -351,19 +391,18 @@ class FolhaInvest(object):
     Returns
     -------
     orders_status : list
-                    Retorna lista de OrderStatus contendo informações de cada
-                    ordem. Retorna uma lista vazia, caso nenhuma ordem seja
-                    encontrada.
+            Retorna lista de OrderStatus contendo informações de cada
+            ordem. Retorna uma lista vazia, caso nenhuma ordem seja
+            encontrada.
     """
     url = self._geturl('ordens?f=' + filter)
     r = self._session.post(url)
     result = []
 
     html = BeautifulSoup(r.text)
-    for row in html.select('table.fiTable')[0].select('tr')[1:]: # skip header
+    for row in html.select('table.fiTable')[0].select('tr')[1:]:
       cols  = row.select('td')
-      
-      # Extrai todas colunas da linha
+
       id              = int(cols[0].input['value'])
       type            = str(cols[1].b.string)
       symbol          = str(cols[2].b.string)
@@ -382,7 +421,7 @@ class FolhaInvest(object):
         id              = id,
         type            = type,
         symbol          = symbol,
-        quantity        = quantity, 
+        quantity        = quantity,
         value           = value,
         expiration_date = expiration_date,
         status          = status
@@ -399,7 +438,7 @@ class FolhaInvest(object):
     Returns
     -------
     portfolio : Portfolio
-                Retorna uma tupla Portfolio contendo as informações encontradas.
+            Retorna uma tupla Portfolio contendo as informações encontradas.
     """
     url = self._geturl('carteira')
     r = self._session.get(url)
@@ -411,7 +450,7 @@ class FolhaInvest(object):
     table_annual_profit  = tables[2]
     table_monthly_profit = tables[3]
 
-    # Extract Stocks data
+    # Extrai informações de ações da carteira
     stocks = []
     for row in table_stocks.select('tr')[1:-1]:
       cols = row.select('td')
@@ -437,7 +476,7 @@ class FolhaInvest(object):
       )
       stocks.append(stock)
 
-    # Extract Overview data
+    # Extrai informações gerais
     cols = table_overview.select('tr')[1].select('td')
     total_capital = self._cast_float(cols[0].string)
     total_stocks  = self._cast_float(cols[1].string)
@@ -449,22 +488,24 @@ class FolhaInvest(object):
       total = total
     )
 
-    # Extract Annual Profitability
+    # Extrai Rentabilidade Anual
     rows = table_annual_profit.select('tr')[1:]
     a_initial_position    = self._cast_float(rows[0].select('td')[1].string)
     a_current_position    = self._cast_float(rows[1].select('td')[1].string)
     a_current_performance = self._cast_percentage(rows[2].select('td')[1].string)
+
     annual_profit = Profitability(
       initial_position    = a_initial_position,
       current_position    = a_current_position,
       current_performance = a_current_performance
     )
 
-    # Extract Monthly Profitability
+    # Extrai Rentabilidade Mensal
     rows = table_monthly_profit.select('tr')[1:]
     m_initial_position    = self._cast_float(rows[0].select('td')[1].string)
     m_current_position    = self._cast_float(rows[1].select('td')[1].string)
     m_current_performance = self._cast_percentage(rows[2].select('td')[1].string)
+
     monthly_profit = Profitability(
       initial_position    = m_initial_position,
       current_position    = m_current_position,
@@ -485,14 +526,13 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Retorna o estado da submissão.
+            Retorna o estado da submissão.
     """
     url = self._geturl('limpar')
     r = self._session.get(url)
 
     # Confirma automaticamente
-    payload = { 'confirm': 'Confirmar' } # cancel:Cancelar
-    r = self._session.post(r.url, data=payload)
+    r = self._session.post(r.url, data={ 'confirm': 'Confirmar' })
 
     if r.status_code == 200:
       status_code = 'OK'
@@ -507,30 +547,36 @@ class FolhaInvest(object):
     )
 
 
-  def get_portfolio_csv(self, filepath):
+  def get_portfolio_csv(self, filepath='carteira.xls'):
     """Realiza o download da carteira no formato'.xls'.
+
+    Parameters
+    ----------
+    filepath : string (default='carteira.xls')
+            Contém o caminho e nome com formato do arquivo
+            (ex. '/caminho/carteira.xls').
 
     Returns
     -------
     status : Status
-             Retorna o estado do download.
+            Retorna o estado do download.
     """
     url = self._geturl('carteira?tsv=yes')
     r = self._session.get(url)
-    
+
     if r.status_code == 200:
       with open(filepath, 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024): 
-          if chunk: # filter out keep-alive new chunks
+        for chunk in r.iter_content(chunk_size=1024):
+          if chunk:
             f.write(chunk)
 
     if os.path.exists(filepath):
       status_code = 'OK'
-      description = 'Arquivo baixado com sucesso'
+      description = 'Arquivo obtido com sucesso'
     else:
       status_code = 'FAIL'
-      description = 'Não foi possível baixar arquivo'
-    
+      description = 'Não foi possível obter arquivo'
+
     return Status(
       status_code = status_code,
       description = description
@@ -538,27 +584,27 @@ class FolhaInvest(object):
 
 
   def quotations(self, view=''):
-    """Returns as cotações.
+    """Returna as cotações.
 
     Parameters
     ----------
     view : '' ou 'portfolio', (default='')
-           Lista todas as empresas ('') ou somente empresas existentes na
-           carteira ('portfolio').
+            Lista todas as empresas ('') ou somente empresas existentes na
+            carteira ('portfolio').
 
     Returns
     -------
     quotations : list
-                 Retorna lista de Quote contendo a cotação de cada empresa.
-                 Um lista vazia é retornada quando não foi possível encontrar
-                 cotações.
+            Retorna lista de Quote contendo a cotação de cada empresa.
+            Um lista vazia é retornada quando não foi possível encontrar
+            cotações.
     """
     url = self._geturl('cotacoes?view_option=' + view)
     r = self._session.get(url)
     result = []
 
     html = BeautifulSoup(r.text)
-    for row in html.select('table.fiTable')[0].select('tr')[1:]: # skip header
+    for row in html.select('table.fiTable')[0].select('tr')[1:]:
       cols = row.select('td')
 
       symbol     = str(cols[1].b.string)
@@ -596,24 +642,23 @@ class FolhaInvest(object):
     Returns
     -------
     simulator_trades : list
-                      Retorna lista SimulatorTrade contendo o
-                      número de negociações realizadas no simulador
-                      em cada empresa. Uma lista vazia é retornada
-                      caso nenhum valor seja encontrado.
+            Retorna uma lista de objetos SimulatorTrade contendo o número
+            de negociações realizadas no simulador em cada empresa. Uma lista
+            vazia é retornada caso nenhum valor seja encontrado.
     """
     url = self._geturl('negociacoes')
     r = self._session.get(url)
     result = []
 
     html = BeautifulSoup(r.text)
-    
+
     # Remove tabelas desnecessárias
     [m.extract() for m in html.find_all('table', class_='marker')]
 
     # Ignora primeira e última posição da lista
     for row in html.find('table', class_='logTable').select('tr')[1:-1]:
       cols = row.select('td')
-      
+
       symbol   = self._get_symbol(cols[0].a)
       executed = self._cast_int(cols[1].string)
       pending  = self._cast_int(cols[2].string)
@@ -621,7 +666,7 @@ class FolhaInvest(object):
 
       simulator_trade = SimulatorTrade(
         symbol   = symbol,
-        executed = executed, 
+        executed = executed,
         pending  = pending,
         total    = total
       )
