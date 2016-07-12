@@ -116,7 +116,7 @@ class FolhaInvest(object):
     Returns
     -------
     info : Info
-           Retorna os valores em uma tupla.
+          Retorna os valores em uma tupla.
     """
     url = self._geturl('ordens')
     r = self._session.get(url)
@@ -124,12 +124,14 @@ class FolhaInvest(object):
     html = BeautifulSoup(r.text)
     user_info = html.select('#userInfo')[0].select('p')
     
-    monthly_ranking = user_info[0].b.extract()
-    annual_ranking  = user_info[1].b.extract()
-    capital         = user_info[2].b.extract()
-    daily_limit     = user_info[3].b.extract()
-    remaining_limit = user_info[4].b.extract()
+    # Remove tags desnecessárias
+    user_info[0].b.extract()
+    user_info[1].b.extract()
+    user_info[2].b.extract()
+    user_info[3].b.extract()
+    user_info[4].b.extract()
 
+    # Extrai dados e converte para os tipos apropriados
     monthly_ranking = self._cast_rank(user_info[0].string)
     annual_ranking  = self._cast_rank(user_info[1].string)
     capital         = self._cast_currency(user_info[2].string)
@@ -294,9 +296,9 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Retorna o estado da submissão.
+            Retorna o estado da submissão.
     """
-    # Valida os parametros  
+    # Valida os parâmetros  
     if type(value) is float:
       value = str(value).replace('.', ',')
     elif type(value) is int:
@@ -318,6 +320,7 @@ class FolhaInvest(object):
       'execute'         : 'Executar'
     }
 
+    # Adiciona 'pricing' ao payload quando definido
     if pricing:
       payload['pricing'] = pricing
 
@@ -354,7 +357,7 @@ class FolhaInvest(object):
     Returns
     -------
     status : Status
-             Retorna o estado da submissão.
+            Retorna o estado da submissão.
     """
     payload = defaultdict(list)
     for id in orders_id:
@@ -378,7 +381,7 @@ class FolhaInvest(object):
 
 
   def orders_status(self, filter='all'):
-    """Returns o estado das ordens enviadas.
+    """Retorna o estado das ordens enviadas.
     
     Atenção: Para ordens enviadas a mercado os valores de compra/venda serão
     fixados para 0 (zero).
@@ -386,7 +389,7 @@ class FolhaInvest(object):
     Parameters
     ----------
     filter : 'all', 'cancelled', 'executed', 'pendent' (default='all')
-              Filtra ordens pelo respectivo estado.
+            Filtra ordens pelo respectivo estado.
 
     Returns
     -------
@@ -584,7 +587,7 @@ class FolhaInvest(object):
 
 
   def quotations(self, view=''):
-    """Returna as cotações.
+    """Retorna as cotações.
 
     Parameters
     ----------
@@ -596,7 +599,7 @@ class FolhaInvest(object):
     -------
     quotations : list
             Retorna lista de Quote contendo a cotação de cada empresa.
-            Um lista vazia é retornada quando não foi possível encontrar
+            Um lista vazia é retornada quando não for possível encontrar
             cotações.
     """
     url = self._geturl('cotacoes?view_option=' + view)
