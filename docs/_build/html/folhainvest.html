@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Submodules &mdash; FolhaInvest 1.0.0 documentação</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="FolhaInvest 1.0.0 documentação" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> FolhaInvest
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="simple">
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">FolhaInvest</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Submodules</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/folhainvest.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="submodules">
+<h1>Submodules<a class="headerlink" href="#submodules" title="Link permanente para este título">¶</a></h1>
+</div>
+<div class="section" id="module-folhainvest.folhainvest">
+<span id="folhainvest-folhainvest-module"></span><h1>folhainvest.folhainvest module<a class="headerlink" href="#module-folhainvest.folhainvest" title="Link permanente para este título">¶</a></h1>
+<dl class="class">
+<dt id="folhainvest.folhainvest.FolhaInvest">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">FolhaInvest</code><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<blockquote>
+<div><p>API de acesso ao FolhaInvest.</p>
+<p>Fornece os principais métodos de acesso à plataforma de simulação, permitindo
+o envio e monitoramento de ordens e a recuperação de informações gerais.</p>
+<p>[1] <a class="reference external" href="http://folhainvest.folha.uol.com.br">http://folhainvest.folha.uol.com.br</a></p>
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.buy">
+<code class="descclassname">FolhaInvest.</code><code class="descname">buy</code><span class="sig-paren">(</span><em>symbol</em>, <em>value</em>, <em>quantity</em>, <em>expiration_date</em>, <em>pricing='fixed'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.buy"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.buy" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Envia uma ordem de compra.</p>
+<dl class="docutils">
+<dt>symbol</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Nome da empresa (ex. ABEV3, PETR4, etc).</dd>
+<dt>value</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou float</span><dd>Valor da compra (ex. &#8216;12,45&#8217; ou 12.45).</dd>
+<dt>quantity</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou int</span><dd>Volume da compra (ex. &#8216;1.000&#8217; ou 1000).</dd>
+<dt>expiration_date</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Data de vencimento da compra (ex. &#8216;31/12/2100&#8217;).</dd>
+<dt>pricing</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">&#8216;fixed&#8217; ou &#8216;market&#8217; (default=&#8217;fixed&#8217;)</span><dd>Tipo de preço da compra, preço fixo (&#8216;fixed&#8217;) ou a mercado (&#8216;market&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da submissão.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.buy_start">
+<code class="descclassname">FolhaInvest.</code><code class="descname">buy_start</code><span class="sig-paren">(</span><em>symbol</em>, <em>value</em>, <em>quantity</em>, <em>expiration_date</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.buy_start"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.buy_start" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Envia um start de compra.</p>
+<dl class="docutils">
+<dt>symbol</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Nome da empresa (ex. ABEV3, PETR4, etc).</dd>
+<dt>value</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou float</span><dd>Valor da compra (ex. &#8216;12,45&#8217; ou 12.45).</dd>
+<dt>quantity</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou int</span><dd>Volume da compra (ex. &#8216;1.000&#8217; ou 1000).</dd>
+<dt>expiration_date</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Data de vencimento da venda (ex. &#8216;31/12/2100&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da submissão.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.cancel">
+<code class="descclassname">FolhaInvest.</code><code class="descname">cancel</code><span class="sig-paren">(</span><em>orders_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.cancel"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.cancel" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Envia uma ordem de cancelamento.</p>
+<dl class="docutils">
+<dt>orders_id</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list</span><dd>Uma lista de id&#8217;s de cada ordem a ser cancelada. Se uma lista
+vazia for fornecida, a ordem não é enviada. Caso valores
+inválidos forem especificados, os possíveis erros não serão
+retornados por este método.</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da submissão.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.get_portfolio_csv">
+<code class="descclassname">FolhaInvest.</code><code class="descname">get_portfolio_csv</code><span class="sig-paren">(</span><em>filepath='carteira.xls'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.get_portfolio_csv"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.get_portfolio_csv" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza o download da carteira no formato&#8217;.xls&#8217;.</p>
+<dl class="docutils">
+<dt>filepath</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string (default=&#8217;carteira.xls&#8217;)</span><dd>Contém o caminho e nome com formato do arquivo
+(ex. &#8216;/caminho/carteira.xls&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado do download.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.info">
+<code class="descclassname">FolhaInvest.</code><code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.info"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.info" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna informações gerais do desempenho.</p>
+<dl class="docutils">
+<dt>info</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Info</span><dd>Retorna os valores em uma tupla.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.login">
+<code class="descclassname">FolhaInvest.</code><code class="descname">login</code><span class="sig-paren">(</span><em>email</em>, <em>password</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.login"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.login" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Realiza do usuário autenticação no sistema.</p>
+<dl class="docutils">
+<dt>email</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Email do usuário.</dd>
+<dt>password</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Senha do usuário.</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da autenticação.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.orders_status">
+<code class="descclassname">FolhaInvest.</code><code class="descname">orders_status</code><span class="sig-paren">(</span><em>filter='all'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.orders_status"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.orders_status" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna o estado das ordens enviadas.</p>
+<p>Atenção: Para ordens enviadas a mercado os valores de compra/venda serão
+fixados para 0 (zero).</p>
+<dl class="docutils">
+<dt>filter</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">&#8216;all&#8217;, &#8216;cancelled&#8217;, &#8216;executed&#8217;, &#8216;pendent&#8217; (default=&#8217;all&#8217;)</span><dd>Filtra ordens pelo respectivo estado.</dd>
+</dl>
+<dl class="docutils">
+<dt>orders_status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list</span><dd>Retorna lista de OrderStatus contendo informações de cada
+ordem. Retorna uma lista vazia, caso nenhuma ordem seja
+encontrada.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.portfolio">
+<code class="descclassname">FolhaInvest.</code><code class="descname">portfolio</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.portfolio"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.portfolio" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna informações referentes a carteira.</p>
+<dl class="docutils">
+<dt>portfolio</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Portfolio</span><dd>Retorna uma tupla Portfolio contendo as informações encontradas.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.quotations">
+<code class="descclassname">FolhaInvest.</code><code class="descname">quotations</code><span class="sig-paren">(</span><em>view=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.quotations"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.quotations" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna as cotações.</p>
+<dl class="docutils">
+<dt>view</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">&#8216;&#8217; ou &#8216;portfolio&#8217;, (default=&#8217;&#8216;)</span><dd>Lista todas as empresas (&#8216;&#8217;) ou somente empresas existentes na
+carteira (&#8216;portfolio&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>quotations</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list</span><dd>Retorna lista de Quote contendo a cotação de cada empresa.
+Um lista vazia é retornada quando não for possível encontrar
+cotações.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.reset_portfolio">
+<code class="descclassname">FolhaInvest.</code><code class="descname">reset_portfolio</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.reset_portfolio"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.reset_portfolio" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Reinicia a carteira.</p>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da submissão.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.sell">
+<code class="descclassname">FolhaInvest.</code><code class="descname">sell</code><span class="sig-paren">(</span><em>symbol</em>, <em>value</em>, <em>quantity</em>, <em>expiration_date</em>, <em>pricing='fixed'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.sell"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.sell" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Envia uma ordem de venda.</p>
+<dl class="docutils">
+<dt>symbol</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Nome da empresa (ex. ABEV3, PETR4, etc).</dd>
+<dt>value</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou float</span><dd>Valor da venda (ex. &#8216;12,45&#8217; ou 12.45).</dd>
+<dt>quantity</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou int</span><dd>Volume da venda (ex. &#8216;1.000&#8217; ou 1000).</dd>
+<dt>expiration_date</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Data de vencimento da venda (ex. &#8216;31/12/2100&#8217;).</dd>
+<dt>pricing</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">&#8216;fixed&#8217; ou &#8216;market&#8217; (default=&#8217;fixed&#8217;)</span><dd>Tipo de preço da venda, preço fixo (&#8216;fixed&#8217;) ou a mercado (&#8216;market&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da submissão.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.sell_stop">
+<code class="descclassname">FolhaInvest.</code><code class="descname">sell_stop</code><span class="sig-paren">(</span><em>symbol</em>, <em>value</em>, <em>quantity</em>, <em>expiration_date</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.sell_stop"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.sell_stop" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Envia um stop de venda.</p>
+<dl class="docutils">
+<dt>symbol</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Nome da empresa (ex. ABEV3, PETR4, etc).</dd>
+<dt>value</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou float</span><dd>Valor da venda (ex. &#8216;12,45&#8217; ou 12.45).</dd>
+<dt>quantity</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string ou int</span><dd>Volume da venda (ex. &#8216;1.000&#8217; ou 1000).</dd>
+<dt>expiration_date</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">string</span><dd>Data de vencimento da venda (ex. &#8216;31/12/2100&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>status</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">Status</span><dd>Retorna o estado da submissão.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="folhainvest.folhainvest.FolhaInvest.simulator_trades">
+<code class="descclassname">FolhaInvest.</code><code class="descname">simulator_trades</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/folhainvest/folhainvest.html#FolhaInvest.simulator_trades"><span class="viewcode-link">[código fonte]</span></a><a class="headerlink" href="#folhainvest.folhainvest.FolhaInvest.simulator_trades" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Retorna o número de negociações feitas em cada empresa no simulador.</p>
+<dl class="docutils">
+<dt>simulator_trades</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">list</span><dd>Retorna uma lista de objetos SimulatorTrade contendo o número
+de negociações realizadas no simulador em cada empresa. Uma lista
+vazia é retornada caso nenhum valor seja encontrado.</dd>
+</dl>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Info">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Info</code><span class="sig-paren">(</span><em>capital</em>, <em>daily_limit</em>, <em>remaining_limit</em>, <em>monthly_ranking</em>, <em>annual_ranking</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Info" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Info.annual_ranking">
+<code class="descclassname">Info.</code><code class="descname">annual_ranking</code><a class="headerlink" href="#folhainvest.folhainvest.Info.annual_ranking" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Info.capital">
+<code class="descclassname">Info.</code><code class="descname">capital</code><a class="headerlink" href="#folhainvest.folhainvest.Info.capital" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Info.daily_limit">
+<code class="descclassname">Info.</code><code class="descname">daily_limit</code><a class="headerlink" href="#folhainvest.folhainvest.Info.daily_limit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Info.monthly_ranking">
+<code class="descclassname">Info.</code><code class="descname">monthly_ranking</code><a class="headerlink" href="#folhainvest.folhainvest.Info.monthly_ranking" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Info.remaining_limit">
+<code class="descclassname">Info.</code><code class="descname">remaining_limit</code><a class="headerlink" href="#folhainvest.folhainvest.Info.remaining_limit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.OrderStatus">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">OrderStatus</code><span class="sig-paren">(</span><em>id</em>, <em>type</em>, <em>symbol</em>, <em>quantity</em>, <em>value</em>, <em>expiration_date</em>, <em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.expiration_date">
+<code class="descclassname">OrderStatus.</code><code class="descname">expiration_date</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.expiration_date" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.id">
+<code class="descclassname">OrderStatus.</code><code class="descname">id</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.id" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.quantity">
+<code class="descclassname">OrderStatus.</code><code class="descname">quantity</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.quantity" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.status">
+<code class="descclassname">OrderStatus.</code><code class="descname">status</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.status" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.symbol">
+<code class="descclassname">OrderStatus.</code><code class="descname">symbol</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.symbol" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.type">
+<code class="descclassname">OrderStatus.</code><code class="descname">type</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.type" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.OrderStatus.value">
+<code class="descclassname">OrderStatus.</code><code class="descname">value</code><a class="headerlink" href="#folhainvest.folhainvest.OrderStatus.value" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Overview">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Overview</code><span class="sig-paren">(</span><em>total_capital</em>, <em>total_stocks</em>, <em>total</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Overview" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Overview.total">
+<code class="descclassname">Overview.</code><code class="descname">total</code><a class="headerlink" href="#folhainvest.folhainvest.Overview.total" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Overview.total_capital">
+<code class="descclassname">Overview.</code><code class="descname">total_capital</code><a class="headerlink" href="#folhainvest.folhainvest.Overview.total_capital" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Overview.total_stocks">
+<code class="descclassname">Overview.</code><code class="descname">total_stocks</code><a class="headerlink" href="#folhainvest.folhainvest.Overview.total_stocks" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Portfolio">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Portfolio</code><span class="sig-paren">(</span><em>stocks</em>, <em>overview</em>, <em>annual_profit</em>, <em>monthly_profit</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Portfolio" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Portfolio.annual_profit">
+<code class="descclassname">Portfolio.</code><code class="descname">annual_profit</code><a class="headerlink" href="#folhainvest.folhainvest.Portfolio.annual_profit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Portfolio.monthly_profit">
+<code class="descclassname">Portfolio.</code><code class="descname">monthly_profit</code><a class="headerlink" href="#folhainvest.folhainvest.Portfolio.monthly_profit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Portfolio.overview">
+<code class="descclassname">Portfolio.</code><code class="descname">overview</code><a class="headerlink" href="#folhainvest.folhainvest.Portfolio.overview" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Portfolio.stocks">
+<code class="descclassname">Portfolio.</code><code class="descname">stocks</code><a class="headerlink" href="#folhainvest.folhainvest.Portfolio.stocks" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Profitability">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Profitability</code><span class="sig-paren">(</span><em>initial_position</em>, <em>current_position</em>, <em>current_performance</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Profitability" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Profitability.current_performance">
+<code class="descclassname">Profitability.</code><code class="descname">current_performance</code><a class="headerlink" href="#folhainvest.folhainvest.Profitability.current_performance" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Profitability.current_position">
+<code class="descclassname">Profitability.</code><code class="descname">current_position</code><a class="headerlink" href="#folhainvest.folhainvest.Profitability.current_position" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Profitability.initial_position">
+<code class="descclassname">Profitability.</code><code class="descname">initial_position</code><a class="headerlink" href="#folhainvest.folhainvest.Profitability.initial_position" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Quote">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Quote</code><span class="sig-paren">(</span><em>symbol</em>, <em>name</em>, <em>last_trade</em>, <em>trade_time</em>, <em>variation</em>, <em>open</em>, <em>close</em>, <em>high</em>, <em>low</em>, <em>volume</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Quote" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.close">
+<code class="descclassname">Quote.</code><code class="descname">close</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.close" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.high">
+<code class="descclassname">Quote.</code><code class="descname">high</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.high" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 7</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.last_trade">
+<code class="descclassname">Quote.</code><code class="descname">last_trade</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.last_trade" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.low">
+<code class="descclassname">Quote.</code><code class="descname">low</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.low" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 8</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.name">
+<code class="descclassname">Quote.</code><code class="descname">name</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.name" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.open">
+<code class="descclassname">Quote.</code><code class="descname">open</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.open" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.symbol">
+<code class="descclassname">Quote.</code><code class="descname">symbol</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.symbol" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.trade_time">
+<code class="descclassname">Quote.</code><code class="descname">trade_time</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.trade_time" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.variation">
+<code class="descclassname">Quote.</code><code class="descname">variation</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.variation" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Quote.volume">
+<code class="descclassname">Quote.</code><code class="descname">volume</code><a class="headerlink" href="#folhainvest.folhainvest.Quote.volume" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 9</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.SimulatorTrade">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">SimulatorTrade</code><span class="sig-paren">(</span><em>symbol</em>, <em>executed</em>, <em>pending</em>, <em>total</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.SimulatorTrade" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.SimulatorTrade.executed">
+<code class="descclassname">SimulatorTrade.</code><code class="descname">executed</code><a class="headerlink" href="#folhainvest.folhainvest.SimulatorTrade.executed" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.SimulatorTrade.pending">
+<code class="descclassname">SimulatorTrade.</code><code class="descname">pending</code><a class="headerlink" href="#folhainvest.folhainvest.SimulatorTrade.pending" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.SimulatorTrade.symbol">
+<code class="descclassname">SimulatorTrade.</code><code class="descname">symbol</code><a class="headerlink" href="#folhainvest.folhainvest.SimulatorTrade.symbol" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.SimulatorTrade.total">
+<code class="descclassname">SimulatorTrade.</code><code class="descname">total</code><a class="headerlink" href="#folhainvest.folhainvest.SimulatorTrade.total" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Status">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Status</code><span class="sig-paren">(</span><em>status_code</em>, <em>description</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Status" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Status.description">
+<code class="descclassname">Status.</code><code class="descname">description</code><a class="headerlink" href="#folhainvest.folhainvest.Status.description" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Status.status_code">
+<code class="descclassname">Status.</code><code class="descname">status_code</code><a class="headerlink" href="#folhainvest.folhainvest.Status.status_code" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</div></blockquote>
+<dl class="class">
+<dt id="folhainvest.folhainvest.Stock">
+<em class="property">class </em><code class="descclassname">folhainvest.folhainvest.</code><code class="descname">Stock</code><span class="sig-paren">(</span><em>symbol</em>, <em>name</em>, <em>quantity</em>, <em>avg_value</em>, <em>current_value</em>, <em>total_value</em>, <em>profit</em>, <em>variation</em><span class="sig-paren">)</span><a class="headerlink" href="#folhainvest.folhainvest.Stock" title="Link permanente para esta definição">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<blockquote>
+<div><dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.avg_value">
+<code class="descclassname">Stock.</code><code class="descname">avg_value</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.avg_value" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.current_value">
+<code class="descclassname">Stock.</code><code class="descname">current_value</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.current_value" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.name">
+<code class="descclassname">Stock.</code><code class="descname">name</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.name" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.profit">
+<code class="descclassname">Stock.</code><code class="descname">profit</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.profit" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.quantity">
+<code class="descclassname">Stock.</code><code class="descname">quantity</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.quantity" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.symbol">
+<code class="descclassname">Stock.</code><code class="descname">symbol</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.symbol" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.total_value">
+<code class="descclassname">Stock.</code><code class="descname">total_value</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.total_value" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="folhainvest.folhainvest.Stock.variation">
+<code class="descclassname">Stock.</code><code class="descname">variation</code><a class="headerlink" href="#folhainvest.folhainvest.Stock.variation" title="Link permanente para esta definição">¶</a></dt>
+<dd><p>Alias for field number 7</p>
+</dd></dl>
+
+</div></blockquote>
+</div>
+<div class="section" id="module-folhainvest">
+<span id="module-contents"></span><h1>Module contents<a class="headerlink" href="#module-folhainvest" title="Link permanente para este título">¶</a></h1>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Eugênio Cabral.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
